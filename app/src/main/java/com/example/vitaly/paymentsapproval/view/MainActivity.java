@@ -1,11 +1,13 @@
 package com.example.vitaly.paymentsapproval.view;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,9 +36,15 @@ public class MainActivity extends AppCompatActivity implements ActivityCallback 
 
         setSupportActionBar(toolbar);
 
+        PreferenceManager.setDefaultValues(this, R.xml.preferences_layout, false);
+
         fragmentManager = getSupportFragmentManager();
 
         Fragment fragment = fragmentManager.findFragmentByTag(TAG);
+
+        SharedPreferences sharedPref =
+                PreferenceManager.getDefaultSharedPreferences(this);
+        Boolean demo_mode = sharedPref.getBoolean("demo_mode", false);
 
         if (fragment == null) replaceFragment(new PaymentsListFragment(), false);
 

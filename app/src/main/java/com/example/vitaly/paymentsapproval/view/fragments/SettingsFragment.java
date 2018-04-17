@@ -1,17 +1,15 @@
 package com.example.vitaly.paymentsapproval.view.fragments;
 
 import android.os.Bundle;
-import android.preference.PreferenceFragment;
-import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBar;
+import android.support.v7.preference.PreferenceFragmentCompat;
 
 import com.example.vitaly.paymentsapproval.R;
 
-public class SettingsFragment extends PreferenceFragment {
+public class SettingsFragment extends PreferenceFragmentCompat {
+
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.preferences_layout);
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+        setPreferencesFromResource(R.xml.preferences_layout, rootKey);
     }
 
 }
