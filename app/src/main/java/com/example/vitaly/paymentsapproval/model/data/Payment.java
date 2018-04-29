@@ -1,5 +1,10 @@
 package com.example.vitaly.paymentsapproval.model.data;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -10,25 +15,30 @@ import java.util.Date;
 /**
  * Created by vitaliy on 19/03/2018.
  */
-
+@Entity(tableName = "payments_table")
 public class Payment implements Serializable {
 
+    @PrimaryKey
+    @NonNull
+    @ColumnInfo(name = "uid")
     @SerializedName("GUID")
     @Expose
     private String UID;
+
     @SerializedName("Дата")
     @Expose
     private Date date;
+
     @SerializedName("Номер")
     @Expose
     private String number;
 
-    public String getGUID() {
+    public String getUID() {
         return UID;
     }
 
-    public void setGUID(String gUID) {
-        this.UID = gUID;
+    public void setUID(String UID) {
+        this.UID = UID;
     }
 
     public Date getDate() {
@@ -81,5 +91,9 @@ public class Payment implements Serializable {
         UID = builder.guid;
         date = builder.date;
         number = builder.number;
+    }
+
+    public Payment(String UID) {
+        this.UID = UID;
     }
 }

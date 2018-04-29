@@ -1,5 +1,9 @@
 package com.example.vitaly.paymentsapproval.model;
 
+import android.app.Application;
+import android.content.SharedPreferences;
+import android.support.v7.preference.PreferenceManager;
+
 import com.example.vitaly.paymentsapproval.model.api.ApiInterface;
 import com.example.vitaly.paymentsapproval.model.api.ApiModule;
 import com.example.vitaly.paymentsapproval.model.data.Payment;
@@ -19,6 +23,12 @@ public class ModelImpl implements IModel {
 
     ApiInterface apiInterface = ApiModule.getApiInterface(Const.BASE_URL);
 
+    SharedPreferences sharedPref;
+
+    public ModelImpl(Application mApplication) {
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(mApplication);
+    }
+
     public ApiInterface getApiInterface() {
         return apiInterface;
     }
@@ -29,5 +39,10 @@ public class ModelImpl implements IModel {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 ;
+    }
+
+    @Override
+    public Boolean isDemoMode() {
+        return sharedPref.getBoolean("demo_mode", false);
     }
 }

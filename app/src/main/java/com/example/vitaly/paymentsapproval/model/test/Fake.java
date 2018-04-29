@@ -1,5 +1,6 @@
 package com.example.vitaly.paymentsapproval.model.test;
 
+import android.app.Application;
 import android.content.Context;
 
 import com.example.vitaly.paymentsapproval.model.data.Payment;
@@ -14,7 +15,23 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class Fake {
-    public static ArrayList<Payment> getFakePayments() {
+
+    private static Fake INSTANCE;
+
+    private Application mApplication;
+
+    private Fake(Application mApplication) {
+        this.mApplication = mApplication;
+    }
+
+    public static Fake getInstance(Application application) {
+        if (INSTANCE == null) {
+            INSTANCE = new Fake(application);
+        }
+        return INSTANCE;
+    }
+
+    public ArrayList<Payment> getFakePayments() {
         ArrayList<Payment> payments = new ArrayList<>();
         Payment payment;
         Calendar calendar = Calendar.getInstance();
@@ -37,13 +54,13 @@ public class Fake {
         return payments;
     }
 
-    public static ArrayList<Payment> getFakePaymentsFromJsonFile(Context ctx) {
+    public ArrayList<Payment> getFakePaymentsFromJsonFile() {
         ArrayList<Payment> payments;
         String JsonString;
 
-        InputStream stream = ctx.getResources().openRawResource(
-                ctx.getResources().getIdentifier("demo_payments",
-                        "raw", ctx.getPackageName()));
+        InputStream stream = mApplication.getResources().openRawResource(
+                mApplication.getResources().getIdentifier("demo_payments",
+                        "raw", mApplication.getPackageName()));
 
         try {
             int size = stream.available();

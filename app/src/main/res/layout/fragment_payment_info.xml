@@ -41,7 +41,7 @@
 
         <Button
             android:id="@+id/btn_accept"
-            style="?android:attr/buttonBarButtonStyle"
+            style="@style/Button.Accept"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -49,7 +49,7 @@
 
         <Button
             android:id="@+id/btn_dismiss"
-            style="?android:attr/buttonBarButtonStyle"
+            style="@style/Button.Dismiss"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

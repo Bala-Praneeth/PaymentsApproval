@@ -5,7 +5,8 @@ package com.example.vitaly.paymentsapproval.other;
  */
 
 public interface Const {
-    String BASE_URL = "/1S-KZ-TOO-Teststand/hs/PaymentsApproval/";
+    //String BASE_URL = "/1S-KZ-TOO-Teststand/hs/PaymentsApproval/";
+    String BASE_URL = "http://1s-web-dev.office.lamoda.ru/1S-KZ-TOO-Teststand/hs/PaymentsApproval/";
     String TEST_USER = "webservice";
     String TEST_USER_PWD = "123";
     Boolean USE_FAKE_PAYMENTS = true;

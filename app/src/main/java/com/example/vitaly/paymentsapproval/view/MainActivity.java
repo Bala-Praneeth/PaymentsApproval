@@ -1,11 +1,13 @@
 package com.example.vitaly.paymentsapproval.view;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
@@ -14,6 +16,7 @@ import android.view.MenuItem;
 
 import com.example.vitaly.paymentsapproval.R;
 import com.example.vitaly.paymentsapproval.model.data.Payment;
+import com.example.vitaly.paymentsapproval.other.Utils;
 import com.example.vitaly.paymentsapproval.view.fragments.PaymentInfoFragment;
 import com.example.vitaly.paymentsapproval.view.fragments.PaymentsListFragment;
 
@@ -35,16 +38,15 @@ public class MainActivity extends AppCompatActivity implements ActivityCallback 
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
+        ActionBar ab = getSupportActionBar();
+        ab.setHomeAsUpIndicator(R.drawable.ic_back);
+        ab.setDisplayHomeAsUpEnabled(true);
 
         PreferenceManager.setDefaultValues(this, R.xml.preferences_layout, false);
 
         fragmentManager = getSupportFragmentManager();
 
         Fragment fragment = fragmentManager.findFragmentByTag(TAG);
-
-        SharedPreferences sharedPref =
-                PreferenceManager.getDefaultSharedPreferences(this);
-        Boolean demo_mode = sharedPref.getBoolean("demo_mode", false);
 
         if (fragment == null) replaceFragment(new PaymentsListFragment(), false);
 
@@ -71,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCallback 
     private void replaceFragment (Fragment fragment, Boolean addBackStack) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.container, fragment, TAG);
+        transaction.setCustomAnimations(R.anim.slide_left, R.anim.slide_right);
         if(addBackStack) transaction.addToBackStack(null);
         transaction.commit();
     }

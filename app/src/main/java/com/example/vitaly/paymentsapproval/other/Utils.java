@@ -1,5 +1,11 @@
 package com.example.vitaly.paymentsapproval.other;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+
+import com.example.vitaly.paymentsapproval.R;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -22,7 +28,6 @@ public class Utils {
     public Gson getGson() {
         return gson;
     }
-
 
     public <T> T readJson(String fileName, Class<T> inClass) {
         return gson.fromJson(readString(fileName), inClass);
@@ -47,5 +52,18 @@ public class Utils {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static ProgressDialog showLoadingDialog(Context context) {
+        ProgressDialog progressDialog = new ProgressDialog(context);
+        progressDialog.show();
+        if (progressDialog.getWindow() != null) {
+            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+        progressDialog.setContentView(R.layout.progress_dialog);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        return progressDialog;
     }
 }

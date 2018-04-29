@@ -13,6 +13,7 @@ import com.example.vitaly.paymentsapproval.model.data.Payment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class PaymentInfoFragment extends BaseFragment implements PaymentInfoView {
     @BindView(R.id.payment_info_layout) View paymentInfoLayout;
@@ -62,4 +63,13 @@ public class PaymentInfoFragment extends BaseFragment implements PaymentInfoView
         Snackbar.make(paymentInfoLayout, error, Snackbar.LENGTH_LONG).show();
     }
 
+    @OnClick(R.id.btn_accept)
+    void onAcceptClick(View v) {
+        getActivity().onBackPressed();
+    }
+
+    @OnClick(R.id.btn_dismiss)
+    void onDismissClick(View v) {
+        getActivity().onBackPressed();
+    }
 }

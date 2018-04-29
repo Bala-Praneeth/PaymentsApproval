@@ -1,5 +1,6 @@
 package com.example.vitaly.paymentsapproval.view.fragments;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import com.example.vitaly.paymentsapproval.R;
 import com.example.vitaly.paymentsapproval.model.data.Payment;
 import com.example.vitaly.paymentsapproval.other.App;
+import com.example.vitaly.paymentsapproval.other.Utils;
 import com.example.vitaly.paymentsapproval.presenter.PaymentsListPresenter;
 import com.example.vitaly.paymentsapproval.view.ActivityCallback;
 import com.example.vitaly.paymentsapproval.view.adapters.PaymentsListAdapter;
@@ -31,6 +33,8 @@ public class PaymentsListFragment extends BaseFragment implements PaymentsListVi
     private PaymentsListAdapter adapter;
 
     private ActivityCallback activityCallback;
+
+    private ProgressDialog mProgressDialog;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -84,13 +88,21 @@ public class PaymentsListFragment extends BaseFragment implements PaymentsListVi
         showToast(error);
     }
 
-    @Override
-    public Context getCtx() {
-        return super.getContext();
-    }
-
     private void showToast(String error) {
         Snackbar.make(recyclerView, error, Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showLoading() {
+        hideLoading();
+        mProgressDialog = Utils.showLoadingDialog(getContext());
+    }
+
+    @Override
+    public void hideLoading() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.cancel();
+        }
     }
 
 }

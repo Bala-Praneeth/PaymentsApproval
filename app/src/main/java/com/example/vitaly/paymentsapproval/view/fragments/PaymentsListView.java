@@ -13,5 +13,6 @@ import java.util.ArrayList;
 public interface PaymentsListView extends View {
     void showPaymentsList(ArrayList<Payment> list);
     void startPaymentInfoFragment(Payment payment);
-    Context getCtx();
+    void showLoading();
+    void hideLoading();
 }

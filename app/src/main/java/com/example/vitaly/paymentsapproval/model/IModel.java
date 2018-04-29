@@ -13,4 +13,5 @@ import io.reactivex.Single;
 
 public interface IModel {
     Single<ArrayList<Payment>> getPaymentsList();
+    Boolean isDemoMode();
 }
