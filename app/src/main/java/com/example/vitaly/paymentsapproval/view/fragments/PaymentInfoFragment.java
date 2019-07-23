@@ -1,5 +1,7 @@
 package com.example.vitaly.paymentsapproval.view.fragments;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -16,6 +18,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class PaymentInfoFragment extends BaseFragment implements PaymentInfoView {
+
     @BindView(R.id.payment_info_layout) View paymentInfoLayout;
     @BindView(R.id.payment_number) TextView paymentNumber;
     @BindView(R.id.payment_date) TextView paymentDate;

@@ -3,9 +3,12 @@ package com.example.vitaly.paymentsapproval.model.data.source.local;
 import com.example.vitaly.paymentsapproval.model.data.Payment;
 import com.example.vitaly.paymentsapproval.model.data.PaymentsDataSource;
 import com.example.vitaly.paymentsapproval.other.AppExecutors;
+import com.example.vitaly.paymentsapproval.other.SchedulerProvider;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.Flowable;
 
 public class PaymentsLocalDataSource implements PaymentsDataSource {
 
@@ -15,15 +18,18 @@ public class PaymentsLocalDataSource implements PaymentsDataSource {
 
     private AppExecutors mAppExecutors;
 
-    private PaymentsLocalDataSource(AppExecutors appExecutors, PaymentsDao paymentsDao) {
+    private SchedulerProvider mSchedulerProvider;
+
+    private PaymentsLocalDataSource(AppExecutors appExecutors, PaymentsDao paymentsDao, SchedulerProvider schedulerProvider) {
         mAppExecutors = appExecutors;
         mPaymentsDao = paymentsDao;
+        mSchedulerProvider = schedulerProvider;
     }
 
-    public static PaymentsLocalDataSource getInstance(AppExecutors appExecutors, PaymentsDao paymentsDao) {
+    public static PaymentsLocalDataSource getInstance(AppExecutors appExecutors, PaymentsDao paymentsDao, SchedulerProvider schedulerProvider) {
         synchronized (PaymentsLocalDataSource.class) {
             if (INSTANCE == null) {
-                INSTANCE = new PaymentsLocalDataSource(appExecutors, paymentsDao);
+                INSTANCE = new PaymentsLocalDataSource(appExecutors, paymentsDao, schedulerProvider);
             }
         }
         return INSTANCE;
@@ -45,6 +51,13 @@ public class PaymentsLocalDataSource implements PaymentsDataSource {
             }
         };
         mAppExecutors.diskIO().execute(runnable);
+    }
+
+    @Override
+    public Flowable<List<Payment>> getPaymentsRX() {
+        return mPaymentsDao.getPaymentsRX()
+                .subscribeOn(mSchedulerProvider.io())
+                .observeOn(mSchedulerProvider.ui());
     }
 
     @Override
