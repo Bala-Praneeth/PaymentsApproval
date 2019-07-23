@@ -12,6 +12,7 @@ import com.example.vitaly.paymentsapproval.model.data.source.local.PaymentsLocal
 import com.example.vitaly.paymentsapproval.model.test.Fake;
 import com.example.vitaly.paymentsapproval.other.App;
 import com.example.vitaly.paymentsapproval.other.AppExecutors;
+import com.example.vitaly.paymentsapproval.other.SchedulerProvider;
 import com.example.vitaly.paymentsapproval.view.fragments.PaymentsListView;
 
 import java.util.ArrayList;
@@ -47,7 +48,8 @@ public class PaymentsListPresenter implements IPresenter {
 
         paymentsRepository = PaymentsRepository.getInstance(
                 PaymentsLocalDataSource.getInstance(new AppExecutors(),
-                        PaymentsDatabase.getInstance(appContext).paymentsDao()));
+                        PaymentsDatabase.getInstance(appContext).paymentsDao(),
+                        SchedulerProvider.getInstance()));
     }
 
     public void loadPayments() {
@@ -56,7 +58,7 @@ public class PaymentsListPresenter implements IPresenter {
             /*ArrayList<Payment> payments = fake.getFakePaymentsFromJsonFile();
             paymentsRepository.cachePayments(payments);
             view.showPaymentsList(payments);*/
-            paymentsRepository.getPayments(new PaymentsDataSource.LoadPaymentsCallback() {
+            /*paymentsRepository.getPayments(new PaymentsDataSource.LoadPaymentsCallback() {
                 @Override
                 public void onPaymentsLoad(List<Payment> payments) {
                     view.showPaymentsList(new ArrayList<>(payments));
@@ -66,6 +68,10 @@ public class PaymentsListPresenter implements IPresenter {
                 public void onDataNotAvailable() {
 
                 }
+            });*/
+            Disposable disposable =
+            paymentsRepository.getPaymentsRX().subscribe(payments -> {
+                view.showPaymentsList(new ArrayList<>(payments));
             });
 
         } else {

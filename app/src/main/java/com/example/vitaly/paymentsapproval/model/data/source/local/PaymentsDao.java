@@ -10,11 +10,16 @@ import com.example.vitaly.paymentsapproval.model.data.Payment;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.Flowable;
+
 @Dao
 public interface PaymentsDao {
 
     @Query("SELECT * FROM payments_table")
     List<Payment> getPayments();
+
+    @Query("SELECT * FROM payments_table")
+    Flowable<List<Payment>> getPaymentsRX();
 
     @Query("SELECT * FROM payments_table WHERE uid = :uid")
     Payment getPaymentByUid(String uid);

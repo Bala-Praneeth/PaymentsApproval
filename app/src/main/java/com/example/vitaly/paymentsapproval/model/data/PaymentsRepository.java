@@ -5,6 +5,8 @@ import android.support.annotation.NonNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.Flowable;
+
 public class PaymentsRepository implements PaymentsDataSource {
 
     private static PaymentsRepository INSTANCE;
@@ -35,6 +37,11 @@ public class PaymentsRepository implements PaymentsDataSource {
                 callback.onDataNotAvailable();
             }
         });
+    }
+
+    @Override
+    public Flowable<List<Payment>> getPaymentsRX() {
+        return mPaymentsLocalDataSource.getPaymentsRX();
     }
 
     @Override
