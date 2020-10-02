@@ -24,8 +24,8 @@ public class NetworkUtils {
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
         String JSONString = null;
-        String username = "webservice";
-        String password = "123";
+        String username = "**********";
+        String password = "**********";
 
         try {
 
